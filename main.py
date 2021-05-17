@@ -151,8 +151,12 @@ def main():
         if (keys[pygame.K_s] or keys[pygame.K_DOWN]) and player_ship.y + player_velocity + player_ship.get_height() < HEIGHT: # down
             player_ship.y += player_velocity
         
-        for enemy in enemies:
+        for enemy in enemies[:]:
             enemy.move(enemy_velocity)
+            if enemy.y + enemy.get_height() > HEIGHT:
+                lives -= 1
+                enemies.remove(enemy)
+
 
         redraw_window()
         
