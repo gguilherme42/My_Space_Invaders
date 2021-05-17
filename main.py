@@ -83,13 +83,13 @@ def main():
 
 
         keys = pygame.key.get_pressed() # returns a dict of all the keys and tells weather they're pressed or not at the current time
-        if keys[pygame.K_a]: # left
+        if keys[pygame.K_a] or keys[pygame.K_LEFT]: # left
             ship.x -= player_velocity
-        if keys[pygame.K_d]: # right
+        if keys[pygame.K_d] or keys[pygame.K_RIGHT]: # right
             ship.x += player_velocity
-        if keys[pygame.K_w]: # up
+        if keys[pygame.K_w] or keys[pygame.K_UP]: # up
             ship.y -= player_velocity
-        if keys[pygame.K_s]: # down
+        if keys[pygame.K_s] or keys[pygame.K_DOWN]: # down
             ship.y += player_velocity
 
 main()
