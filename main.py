@@ -81,7 +81,7 @@ class Ship:
         self.cooldown()
         for laser in self.lasers[:]:
             laser.move(velocity)
-            if laser.offscreen(HEIGHT):
+            if laser.off_screen(HEIGHT):
                 self.lasers.remove(laser)
             elif laser.collision(obj):
                 obj.health -= 10
@@ -118,7 +118,7 @@ class Player(Ship):
     
     def move_lasers(self, velocity, objs):
         self.cooldown()
-        for laser in self.lasers:
+        for laser in self.lasers[:]:
             laser.move(velocity)
             if laser.off_screen(HEIGHT):
                 self.lasers.remove(laser)
@@ -144,6 +144,12 @@ class Enemy(Ship):
     
     def move(self, velocity):
         self.y += velocity
+
+    def shoot(self):
+        if self.cool_down_counter == 0:
+            laser = Laser(self.x - 20, self.y, self.laser_img)
+            self.lasers.append(laser)
+            self.cool_down_counter = 1
 
     
 
@@ -182,10 +188,12 @@ def main():
         WINDOW.blit(lives_label, (10, 10))
         WINDOW.blit(level_label, (WIDTH - level_label.get_width() - 10, 10))
         
+        player_ship.draw(WINDOW)
+
         for enemy in enemies:
             enemy.draw(WINDOW)
 
-        player_ship.draw(WINDOW)
+        
 
         if lost:
             lost_label = lost_font.render("You lost!! :c", 1, (255, 255, 255))
@@ -245,12 +253,22 @@ def main():
         if keys[pygame.K_SPACE]:
             player_ship.shoot()
         
-        for enemy in enemies:
+        for enemy in enemies[:]:
             enemy.move(enemy_velocity)
             enemy.move_lasers(laser_velocity, player_ship)
-            if enemy.y + enemy.get_height() > HEIGHT:
+            
+            if random.randrange(0, 4 * FPS) == 1:
+                enemy.shoot()
+
+            
+            if collide(enemy, player_ship):
+                player_ship.health -= 10
+                enemies.remove(enemy)
+            
+            elif enemy.y + enemy.get_height() > HEIGHT:
                 lives -= 1
                 enemies.remove(enemy)
+            
 
         player_ship.move_lasers(-laser_velocity, enemies)
 
