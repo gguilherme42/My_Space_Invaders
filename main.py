@@ -127,6 +127,15 @@ class Player(Ship):
                     if laser.collision(object):
                         objs.remove(object)
                         self.lasers.remove(laser)
+    
+    def draw(self, window):
+        super().draw(window)
+        self.health_bar(window)
+    
+    def health_bar(self, window):
+        pygame.draw.rect(window, (255, 0, 0), (self.x, self.y + self.ship_img.get_height() + 10, self.ship_img.get_width(), 10))
+        life_width = self.ship_img.get_width() * (self.health / self.max_health)
+        pygame.draw.rect(window, (0, 255, 0), (self.x, self.y + self.ship_img.get_height() + 10, life_width, 10))
 
 
 class Enemy(Ship):
