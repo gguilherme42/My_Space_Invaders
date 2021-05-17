@@ -88,6 +88,8 @@ def main():
     lives = 1
     main_font = pygame.font.SysFont("comicsans", 50)
     lost_font = pygame.font.SysFont("comicsans", 80)
+
+    lost_count = 0
     
     enemies = []
     wave_length = 5
@@ -127,9 +129,19 @@ def main():
 
     while run:
         clock.tick(FPS)
+        redraw_window()
 
         if lives <= 0 or player_ship.health <= 0:
             lost = True
+            lost_count += 1
+        
+        if lost:
+            if lost_count > FPS * 3:
+                run = False
+            else:
+                continue
+
+
 
 
         if len(enemies) == 0:
@@ -168,7 +180,6 @@ def main():
                 enemies.remove(enemy)
 
 
-        redraw_window()
         
 
 main()
