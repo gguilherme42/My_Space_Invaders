@@ -206,8 +206,8 @@ def main():
 
         if lost:
             lost_label = lost_font.render("You lost!! :c", 1, (255, 255, 255))
-            x_center = (WIDTH / 2) - (lost_label.get_width() /2)
-            y_center = (HEIGHT / 2) - (lost_label.get_height() / 2)
+            x_center = (WIDTH - lost_label.get_width()) /2
+            y_center = (HEIGHT - lost_label.get_height()) / 2
             WINDOW.blit(lost_label, (x_center, y_center))
         
         pygame.display.update()
@@ -284,4 +284,22 @@ def main():
 
         
 
-main()
+def main_menu():
+    run = True
+    title_font = pygame.font.SysFont("comicsans", 70)
+    
+    while run:
+        WINDOW.blit(BG, (0,0))
+        title_label = title_font.render("Press the mouse to begin...", 1, (255,255,255))
+        WINDOW.blit(title_label, ((WIDTH - title_label.get_width()) / 2, (HEIGHT - title_label.get_height()) / 2))
+        pygame.display.update()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                main()
+        
+    pygame.quit()
+
+
+main_menu()
