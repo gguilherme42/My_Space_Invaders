@@ -65,13 +65,12 @@ class Player(Ship):
 
 
 class Enemy(Ship):
-    COLOR_MAP = {
-        "red": (RED_SPACE_SHIP, RED_LASER),
-        "green": (GREEN_SPACE_SHIP, GREEN_LASER),
-        "blue": (BLUE_SPACE_SHIP, BLUE_LASER)
-    }
-    
     def __init__(self, x, y, color, health=100):
+        COLOR_MAP = {
+            "red": (RED_SPACE_SHIP, RED_LASER),
+            "green": (GREEN_SPACE_SHIP, GREEN_LASER),
+            "blue": (BLUE_SPACE_SHIP, BLUE_LASER)
+        }
         super().__init__(x, y, health)
         self.ship_img, self.laser_img = COLOR_MAP[color]
         self.mask = pygame.mask.from_surface(self.ship_img)
@@ -84,10 +83,16 @@ class Enemy(Ship):
 def main():
     run = True
     FPS = 60
-    level = 1
+    level = 0
     lives = 5
     main_font = pygame.font.SysFont("comicsans", 50)
+    
+    enemies = []
+    wave_length = 5
+    enemy_velocity = 1
+
     player_velocity = 5
+    
     player_ship = Player(300, 300)
 
     clock = pygame.time.Clock()
@@ -103,8 +108,13 @@ def main():
 
         WINDOW.blit(lives_label, (10, 10))
         WINDOW.blit(level_label, (WIDTH - level_label.get_width() - 10, 10))
+        
+        for enemy in enemies:
+            enemy.draw(WINDOW)
 
         player_ship.draw(WINDOW)
+
+        
         
         pygame.display.update()
     
@@ -112,7 +122,14 @@ def main():
     while run:
         clock.tick(FPS)
 
-        redraw_window()
+        if len(enemies) == 0:
+            level += 1
+            wave_length += 5
+            for i in range(wave_length):
+                enemy_ship = Enemy(random.randrange(50, WIDTH - 100), random.randrange(-1500, -100), random.choice(["green", "blue", "red"]))
+
+                enemies.append(enemy_ship)
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False  
@@ -133,5 +150,11 @@ def main():
             player_ship.y -= player_velocity
         if (keys[pygame.K_s] or keys[pygame.K_DOWN]) and player_ship.y + player_velocity + player_ship.get_height() < HEIGHT: # down
             player_ship.y += player_velocity
+        
+        for enemy in enemies:
+            enemy.move(enemy_velocity)
+
+        redraw_window()
+        
 
 main()
