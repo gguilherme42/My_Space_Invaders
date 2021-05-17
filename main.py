@@ -24,7 +24,7 @@ BLUE_LASER = pygame.image.load(os.path.join("assets", "pixel_laser_blue.png"))
 YELLOW_LASER = pygame.image.load(os.path.join("assets", "pixel_laser_yellow.png"))
 
 # Backgorund
-BG =  pygame.image.load(os.path.join("assets", "background-black.png"))
+BG =  pygame.transform.scale(pygame.image.load(os.path.join("assets", "background-black.png")), (WIDTH, HEIGHT))
 
 
 def main():
@@ -37,7 +37,6 @@ def main():
         # Starts  with the BG to fill the others images
         WINDOW.blit(BG, (0, 0))
         
-        # refresh the display
         pygame.display.update()
     
 
