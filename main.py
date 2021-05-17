@@ -5,6 +5,7 @@ import random
 
 
 WIDTH, HEIGHT = 650, 600
+# Pygame surfice
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Space Invaders")
 
@@ -31,10 +32,19 @@ def main():
     FPS = 60
     clock = pygame.time.Clock()
 
+    
+    def redraw_window():
+        # Starts  with the BG to fill the others images
+        WINDOW.blit(BG, (0, 0))
+        
+        # refresh the display
+        pygame.display.update()
+    
+
     while run:
         clock.tick(FPS)
 
-
+        redraw_window()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False  
