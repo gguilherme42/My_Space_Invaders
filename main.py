@@ -3,6 +3,8 @@ import os
 import time
 import random
 
+from pygame import key
+
 
 # The font object needs to be initialized
 pygame.font.init()
@@ -49,10 +51,11 @@ def main():
     level = 1
     lives = 5
     main_font = pygame.font.SysFont("comicsans", 50)
+    player_velocity = 5
+    ship = Ship(300, 300)
 
     clock = pygame.time.Clock()
 
-    ship = Ship(300, 300)
 
     
     def redraw_window():
@@ -77,5 +80,16 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False  
+
+
+        keys = pygame.key.get_pressed() # returns a dict of all the keys and tells weather they're pressed or not at the current time
+        if keys[pygame.K_a]: # left
+            ship.x -= player_velocity
+        if keys[pygame.K_d]: # right
+            ship.x += player_velocity
+        if keys[pygame.K_w]: # up
+            ship.y -= player_velocity
+        if keys[pygame.K_s]: # down
+            ship.y += player_velocity
 
 main()
