@@ -29,6 +29,19 @@ YELLOW_LASER = pygame.image.load(os.path.join("assets", "pixel_laser_yellow.png"
 # Backgorund
 BG =  pygame.transform.scale(pygame.image.load(os.path.join("assets", "background-black.png")), (WIDTH, HEIGHT))
 
+class Ship:
+    def __init__(self, x_position, y_position, health=100):
+        self.x = x_position
+        self.y = y_position
+        self.health = health
+        self.ship_img = None
+        self.laser_img = None
+        self.lasers = []
+        self.cool_down_counter = 0
+    
+    def draw(self, window):
+        pygame.draw.rect(window, (255, 0, 0), (self.x, self.y, 50, 50))
+
 
 def main():
     run = True
@@ -38,6 +51,8 @@ def main():
     main_font = pygame.font.SysFont("comicsans", 50)
 
     clock = pygame.time.Clock()
+
+    ship = Ship(300, 300)
 
     
     def redraw_window():
@@ -49,6 +64,8 @@ def main():
 
         WINDOW.blit(lives_label, (10, 10))
         WINDOW.blit(level_label, (WIDTH - level_label.get_width() - 10, 10))
+
+        ship.draw(WINDOW)
         
         pygame.display.update()
     
