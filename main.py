@@ -79,13 +79,14 @@ class Ship:
 
     def move_lasers(self, velocity, obj):
         self.cooldown()
-        for laser in self.lasers[:]:
+        for laser in self.lasers:
             laser.move(velocity)
             if laser.off_screen(HEIGHT):
                 self.lasers.remove(laser)
             elif laser.collision(obj):
                 obj.health -= 10
-                self.lasers.remove(laser)
+                if laser in self.lasers:
+                    self.lasers.remove(laser)
 
     def cooldown(self):
         if self.cool_down_counter >= self.COOLDOWN:
@@ -118,7 +119,7 @@ class Player(Ship):
     
     def move_lasers(self, velocity, objs):
         self.cooldown()
-        for laser in self.lasers[:]:
+        for laser in self.lasers:
             laser.move(velocity)
             if laser.off_screen(HEIGHT):
                 self.lasers.remove(laser)
@@ -126,7 +127,8 @@ class Player(Ship):
                 for object in objs:
                     if laser.collision(object):
                         objs.remove(object)
-                        self.lasers.remove(laser)
+                        if laser in self.lasers:
+                            self.lasers.remove(laser)
     
     def draw(self, window):
         super().draw(window)
@@ -240,8 +242,7 @@ def main():
         
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                run = False  
-
+               pygame.quit()
 
         keys = pygame.key.get_pressed() # returns a dict of all the keys and tells weather they're pressed or not at the current time
         if (keys[pygame.K_a] or keys[pygame.K_LEFT]): # left
