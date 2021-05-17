@@ -115,7 +115,7 @@ def main():
                 player_ship.x += player_velocity
         if (keys[pygame.K_w] or keys[pygame.K_UP]) and player_ship.y - player_velocity  > 0: # up
             player_ship.y -= player_velocity
-        if (keys[pygame.K_s] or keys[pygame.K_DOWN]) and player_ship.y + player_velocity + 50 < HEIGHT: # down
+        if (keys[pygame.K_s] or keys[pygame.K_DOWN]) and player_ship.y + player_velocity + player_ship.get_height() < HEIGHT: # down
             player_ship.y += player_velocity
 
 main()
