@@ -4,7 +4,7 @@ import time
 import random
 
 
-WIDTH, HEIGHT = 750, 740
+WIDTH, HEIGHT = 650, 600
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Space Invaders")
 
