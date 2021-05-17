@@ -42,7 +42,14 @@ class Ship:
         self.cool_down_counter = 0
     
     def draw(self, window):
-        pygame.draw.rect(window, (255, 0, 0), (self.x, self.y, 50, 50))
+        window.blit(self.ship_img, (self.x, self.y))
+
+class Player(Ship):
+    def __init__(self, x, y, health=100):
+        super().__init__(x, y, health)
+        self.ship_img = YELLOW_SPACE_SHIP
+        self.laser_img = YELLOW_LASER
+
 
 
 def main():
@@ -52,7 +59,7 @@ def main():
     lives = 5
     main_font = pygame.font.SysFont("comicsans", 50)
     player_velocity = 5
-    ship = Ship(300, 300)
+    player_ship = Player(300, 300)
 
     clock = pygame.time.Clock()
 
@@ -68,7 +75,7 @@ def main():
         WINDOW.blit(lives_label, (10, 10))
         WINDOW.blit(level_label, (WIDTH - level_label.get_width() - 10, 10))
 
-        ship.draw(WINDOW)
+        player_ship.draw(WINDOW)
         
         pygame.display.update()
     
@@ -84,18 +91,18 @@ def main():
 
         keys = pygame.key.get_pressed() # returns a dict of all the keys and tells weather they're pressed or not at the current time
         if (keys[pygame.K_a] or keys[pygame.K_LEFT]): # left
-            if ship.x - player_velocity < 0:
-                ship.x = WIDTH
+            if player_ship.x - player_velocity < 0:
+                player_ship.x = WIDTH
             else:
-                ship.x -= player_velocity
+                player_ship.x -= player_velocity
         if (keys[pygame.K_d] or keys[pygame.K_RIGHT]): # right
-            if ship.x + player_velocity > WIDTH:
-                ship.x = 0
+            if player_ship.x + player_velocity > WIDTH:
+                player_ship.x = 0
             else:
-                ship.x += player_velocity
-        if (keys[pygame.K_w] or keys[pygame.K_UP]) and ship.y - player_velocity  > 0: # up
-            ship.y -= player_velocity
-        if (keys[pygame.K_s] or keys[pygame.K_DOWN]) and ship.y + player_velocity + 50 < HEIGHT: # down
-            ship.y += player_velocity
+                player_ship.x += player_velocity
+        if (keys[pygame.K_w] or keys[pygame.K_UP]) and player_ship.y - player_velocity  > 0: # up
+            player_ship.y -= player_velocity
+        if (keys[pygame.K_s] or keys[pygame.K_DOWN]) and player_ship.y + player_velocity + 50 < HEIGHT: # down
+            player_ship.y += player_velocity
 
 main()
