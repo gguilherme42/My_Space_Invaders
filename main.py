@@ -41,8 +41,19 @@ class Ship:
         self.lasers = []
         self.cool_down_counter = 0
     
+    
     def draw(self, window):
         window.blit(self.ship_img, (self.x, self.y))
+
+    
+    def get_width(self):
+        return self.ship_img.get_width()
+
+   
+    def get_height(self):
+        return self.ship_img.get_height()
+
+    
 
 class Player(Ship):
     def __init__(self, x, y, health=100):
