@@ -9,6 +9,7 @@ I'll add to the project the features below:
 - [ ] New lasers
 - [ ] A player rank
 - [ ] Some statistics
+- [ ] Other stuff
 
 ## Demo
 
