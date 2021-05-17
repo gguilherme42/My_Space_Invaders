@@ -3,8 +3,6 @@ import os
 import time
 import random
 
-from pygame import key
-
 
 # The font object needs to be initialized
 pygame.font.init()
@@ -31,7 +29,6 @@ YELLOW_LASER = pygame.image.load(os.path.join("assets", "pixel_laser_yellow.png"
 # Backgorund
 BG =  pygame.transform.scale(pygame.image.load(os.path.join("assets", "background-black.png")), (WIDTH, HEIGHT))
 
-
 class Laser:
     def __init__(self, x, y, img):
         self.x = x
@@ -49,14 +46,16 @@ class Laser:
 
     
     def off_screen(self, height):
-        return not(0 <= self.y <= height) 
+        return not(0 <= self.y <= height)  
 
 
     def collision(self, obj):
-        return collide(obj, self)
-    
+        return collide(self, obj)
 
-
+def collide(obj1, obj2):
+    offset_x = obj2.x - obj1.x
+    offset_y = obj2.y - obj1.y
+    return obj1.mask.overlap(obj2.mask, (offset_x, offset_y)) != None
 
 
 class Ship:
@@ -107,9 +106,7 @@ class Ship:
    
     def get_height(self):
         return self.ship_img.get_height()
-    
 
-    
 
 class Player(Ship):
     def __init__(self, x, y, health=100):
@@ -121,12 +118,12 @@ class Player(Ship):
     
     def move_lasers(self, velocity, objs):
         self.cooldown()
-        for laser in self.lasers[:]:
+        for laser in self.lasers:
             laser.move(velocity)
             if laser.off_screen(HEIGHT):
                 self.lasers.remove(laser)
             else:
-                for object in objs[:]:
+                for object in objs:
                     if laser.collision(object):
                         objs.remove(object)
                         self.lasers.remove(laser)
@@ -148,12 +145,7 @@ class Enemy(Ship):
     def move(self, velocity):
         self.y += velocity
 
-
-
-def collide(obj1, obj2):
-    offset_x = obj2.x - obj1.x
-    offset_y = obj2.y - obj1.y
-    return obj1.mask.overlap(obj2, (offset_x, offset_y)) != None
+    
 
 
 def main():
@@ -253,13 +245,14 @@ def main():
         if keys[pygame.K_SPACE]:
             player_ship.shoot()
         
-        for enemy in enemies[:]:
+        for enemy in enemies:
             enemy.move(enemy_velocity)
             enemy.move_lasers(laser_velocity, player_ship)
             if enemy.y + enemy.get_height() > HEIGHT:
                 lives -= 1
                 enemies.remove(enemy)
-        player_ship.move_lasers(laser_velocity, enemies)
+
+        player_ship.move_lasers(-laser_velocity, enemies)
 
 
         
