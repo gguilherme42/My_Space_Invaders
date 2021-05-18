@@ -267,7 +267,7 @@ def main():
             enemy.move(enemy_velocity)
             enemy.move_lasers(laser_velocity, player_ship)
             
-            if random.randrange(0, 4 * FPS) == 1:
+            if random.randint(0, 10) == 1:
                 enemy.shoot()
 
             
