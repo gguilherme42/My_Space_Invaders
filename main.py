@@ -30,6 +30,8 @@ YELLOW_LASER = pygame.image.load(os.path.join("assets", "pixel_laser_yellow.png"
 BG =  pygame.transform.scale(pygame.image.load(os.path.join("assets", "background-black.png")), (WIDTH, HEIGHT))
 
 class Laser:
+    LASER_VELOCITY = 4
+
     def __init__(self, x, y, img):
         self.x = x
         self.y = y
@@ -110,6 +112,8 @@ class Ship:
 
 
 class Player(Ship):
+    PLAYER_VELOCITY = 5
+
     def __init__(self, x, y, health=100):
         super().__init__(x, y, health)
         self.ship_img = YELLOW_SPACE_SHIP
@@ -138,9 +142,25 @@ class Player(Ship):
         pygame.draw.rect(window, (255, 0, 0), (self.x, self.y + self.ship_img.get_height() + 10, self.ship_img.get_width(), 10))
         life_width = self.ship_img.get_width() * (self.health / self.max_health)
         pygame.draw.rect(window, (0, 255, 0), (self.x, self.y + self.ship_img.get_height() + 10, life_width, 10))
+    
+
+    def move_right():
+        pass
+
+    def move_left():
+        pass
+
+    def move_up():
+        pass
+
+    def move_down():
+        pass
+
 
 
 class Enemy(Ship):
+    ENEMY_VELOCITY = 1
+
     COLOR_MAP = {
         "red": (RED_SPACE_SHIP, RED_LASER),
         "green": (GREEN_SPACE_SHIP, GREEN_LASER),
@@ -161,8 +181,6 @@ class Enemy(Ship):
             laser = Laser(self.x - 20, self.y, self.laser_img)
             self.lasers.append(laser)
             self.cool_down_counter = 1
-
-    
 
 
 def main():
@@ -245,6 +263,7 @@ def main():
                pygame.quit()
 
         keys = pygame.key.get_pressed() # returns a dict of all the keys and tells weather they're pressed or not at the current time
+        
         if (keys[pygame.K_a] or keys[pygame.K_LEFT]): # left
             if player_ship.x - player_velocity < 0:
                 player_ship.x = WIDTH
@@ -282,8 +301,6 @@ def main():
 
         player_ship.move_lasers(-laser_velocity, enemies)
 
-
-        
 
 def main_menu():
     run = True
