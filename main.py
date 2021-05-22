@@ -207,7 +207,6 @@ def main():
 
     laser_velocity = 4
     enemy_velocity = 1
-    player_velocity = 5
     
     player_ship = Player(300, 300)
 
