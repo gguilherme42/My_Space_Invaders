@@ -272,20 +272,17 @@ def main():
 
         keys = pygame.key.get_pressed() # returns a dict of all the keys and tells weather they're pressed or not at the current time
         
-        if (keys[pygame.K_a] or keys[pygame.K_LEFT]): # left
-            if player_ship.x - player_velocity < 0:
-                player_ship.x = WIDTH
-            else:
-                player_ship.x -= player_velocity
-        if (keys[pygame.K_d] or keys[pygame.K_RIGHT]): # right
-            if player_ship.x + player_velocity > WIDTH:
-                player_ship.x = 0
-            else:
-                player_ship.x += player_velocity
-        if (keys[pygame.K_w] or keys[pygame.K_UP]) and player_ship.y - player_velocity  > 0: # up
-            player_ship.y -= player_velocity
-        if (keys[pygame.K_s] or keys[pygame.K_DOWN]) and player_ship.y + player_velocity + player_ship.get_height() + 20 < HEIGHT: # down
-            player_ship.y += player_velocity
+        if (keys[pygame.K_a] or keys[pygame.K_LEFT]): 
+            player_ship.move_left()
+
+        if (keys[pygame.K_d] or keys[pygame.K_RIGHT]): 
+            player_ship.move_right()
+
+        if (keys[pygame.K_w] or keys[pygame.K_UP]): 
+            player_ship.move_up()
+
+        if (keys[pygame.K_s] or keys[pygame.K_DOWN]):
+            player_ship.move_down()
         
         if keys[pygame.K_SPACE]:
             player_ship.shoot()
