@@ -144,17 +144,25 @@ class Player(Ship):
         pygame.draw.rect(window, (0, 255, 0), (self.x, self.y + self.ship_img.get_height() + 10, life_width, 10))
     
 
-    def move_right():
-        pass
+    def move_right(self):
+        if self.x + self.PLAYER_VELOCITY > WIDTH:
+            self.x = 0
+        else:
+            self.x += self.PLAYER_VELOCITY
 
-    def move_left():
-        pass
+    def move_left(self):
+        if self.x - self.PLAYER_VELOCITY < 0:
+            self.x = WIDTH
+        else:
+            self.x -= self.PLAYER_VELOCITY
 
-    def move_up():
-        pass
+    def move_up(self):
+        if self.y - self.PLAYER_VELOCITY  > 0:
+            self.y -= self.PLAYER_VELOCITY
 
-    def move_down():
-        pass
+    def move_down(self):
+        if self.y + self.PLAYER_VELOCITY + self.get_height() + 20 < HEIGHT:
+            self.y += self.PLAYER_VELOCITY
 
 
 
