@@ -181,8 +181,8 @@ class Enemy(Ship):
         self.mask = pygame.mask.from_surface(self.ship_img)
 
     
-    def move(self, velocity):
-        self.y += velocity
+    def move(self):
+        self.y += self.ENEMY_VELOCITY
 
     def shoot(self):
         if self.cool_down_counter == 0:
@@ -206,7 +206,6 @@ def main():
     wave_length = 5
 
     laser_velocity = 4
-    enemy_velocity = 1
     
     player_ship = Player(300, 300)
 
@@ -287,7 +286,7 @@ def main():
             player_ship.shoot()
         
         for enemy in enemies[:]:
-            enemy.move(enemy_velocity)
+            enemy.move()
             enemy.move_lasers(laser_velocity, player_ship)
             
             if random.randint(0, 10) == 1:
