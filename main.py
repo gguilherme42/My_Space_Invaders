@@ -30,8 +30,6 @@ YELLOW_LASER = pygame.image.load(os.path.join("assets", "pixel_laser_yellow.png"
 BG =  pygame.transform.scale(pygame.image.load(os.path.join("assets", "background-black.png")), (WIDTH, HEIGHT))
 
 class Laser:
-    LASER_VELOCITY = 4
-
     def __init__(self, x, y, img):
         self.x = x
         self.y = y
@@ -113,6 +111,7 @@ class Ship:
 
 class Player(Ship):
     PLAYER_VELOCITY = 5
+    LASER_VELOCITY = -4
 
     def __init__(self, x, y, health=100):
         super().__init__(x, y, health)
@@ -121,10 +120,10 @@ class Player(Ship):
         self.mask = pygame.mask.from_surface(self.ship_img)
         self.max_health = health
     
-    def move_lasers(self, velocity, objs):
+    def move_lasers(self, objs):
         self.cooldown()
         for laser in self.lasers:
-            laser.move(velocity)
+            laser.move(self.LASER_VELOCITY)
             if laser.off_screen(HEIGHT):
                 self.lasers.remove(laser)
             else:
@@ -168,6 +167,7 @@ class Player(Ship):
 
 class Enemy(Ship):
     ENEMY_VELOCITY = 1
+    
 
     COLOR_MAP = {
         "red": (RED_SPACE_SHIP, RED_LASER),
@@ -303,7 +303,7 @@ def main():
                 enemies.remove(enemy)
             
 
-        player_ship.move_lasers(-laser_velocity, enemies)
+        player_ship.move_lasers(enemies)
 
 
 def main_menu():
