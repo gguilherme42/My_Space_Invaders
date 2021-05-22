@@ -58,6 +58,19 @@ def collide(obj1, obj2):
     return obj1.mask.overlap(obj2.mask, (offset_x, offset_y)) != None
 
 
+def random_y_position():
+    return random.randrange(-1500, -100)
+
+
+def random_x_position():
+    return random.randrange(50, WIDTH - 100)
+
+
+def random_ship_color():
+    return random.choice(["green", "blue", "red"])
+
+
+
 class Ship:
     COOLDOWN = 30
     LASER_VELOCITY = 4
@@ -252,14 +265,11 @@ def main():
             else:
                 continue
 
-
-
-
         if len(enemies) == 0:
             level += 1
             wave_length += 5
             for i in range(wave_length):
-                enemy_ship = Enemy(random.randrange(50, WIDTH - 100), random.randrange(-1500, -100), random.choice(["green", "blue", "red"]))
+                enemy_ship = Enemy(random_x_position(), random_y_position(), random_ship_color())
 
                 enemies.append(enemy_ship)
         
