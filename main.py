@@ -60,6 +60,7 @@ def collide(obj1, obj2):
 
 class Ship:
     COOLDOWN = 30
+    LASER_VELOCITY = 4
      
     def __init__(self, x_position, y_position, health=100):
         self.x = x_position
@@ -77,10 +78,10 @@ class Ship:
             laser.draw(window)
 
 
-    def move_lasers(self, velocity, obj):
+    def move_lasers(self, obj):
         self.cooldown()
         for laser in self.lasers:
-            laser.move(velocity)
+            laser.move(self.LASER_VELOCITY)
             if laser.off_screen(HEIGHT):
                 self.lasers.remove(laser)
             elif laser.collision(obj):
@@ -204,8 +205,6 @@ def main():
     
     enemies = []
     wave_length = 5
-
-    laser_velocity = 4
     
     player_ship = Player(300, 300)
 
@@ -287,7 +286,7 @@ def main():
         
         for enemy in enemies[:]:
             enemy.move()
-            enemy.move_lasers(laser_velocity, player_ship)
+            enemy.move_lasers(player_ship)
             
             if random.randint(0, 10) == 1:
                 enemy.shoot()
